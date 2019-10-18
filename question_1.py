@@ -16,7 +16,7 @@ C) using matplotlib, plot a 100-bin histogram, using values from lower triangle
 *hint - the histogram will be shaped like a gaussian
 
 using the histogram, estimate the probability of obtaining an 
-r-value > 0.75 or <-0.75 from correlating two random vectors of size 50. 
+r-value > 0.75 or < -0.75 from correlating two random vectors of size 50. 
 
 repeat A-C with only 10 columns in (A), 
 how does the smaller sample affect the histogram in (C)?
@@ -36,7 +36,22 @@ import numpy as np
 
 def answer_number_one():
 
+    # Generate random data
     data_rand_50 = np.random.random((1000,50))  # initiate random array 1000x50
+    
+    # compute correlation matrix
+    
+    
+#    # subtract mean from ydata and xdata
+#    xdata[:,1] = xdata[:,1] - np.mean(xdata[:,1])
+#    ydata = ydata - np.mean(ydata)
+#    
+#    # get the correlation coefficient 
+#    r = np.sum(xdata[:,1]*ydata[:,0]) \
+#        /np.sqrt(np.sum(xdata[:,1]*xdata[:,1]) \
+#        *np.sum(ydata*ydata))
+    
+    
     
     coefficent_matrix_50 = np.corrcoef(data_rand_50)  # compute correlation matrix
     
@@ -46,15 +61,15 @@ def answer_number_one():
     
     values, bins, patches = plt.hist(correlation_array_50, bins=100)  # plot 100 bins histogram
     
-    nb_lower_50 = (correlation_array_50 <= .75).sum()
+    nb_lower_50 = (correlation_array_50 < -.75).sum()
     nb_higher_50 = (correlation_array_50 > 0.75).sum()
     
-    prob_50 = round((nb_higher_50 / len(correlation_array_50)) * 100, 3)
+    prob_50 = round(((nb_higher_50 + nb_lower_50) / len(correlation_array_50)) * 100, 3)
     
     # making the histogram look good
     plt.xlabel('Value')
     plt.ylabel('Frequency')
-    plt.title(' 50 Column Histogram - P(X > 0.75) = '+str(prob_50)+ '%') # title should be p(X>0.75)
+    plt.title(' 50 Column Histogram - P(X > 0.75, X < -.75) = '+str(prob_50)+ '%') # title should be p(X>0.75)
     
     plt.show()
     
@@ -73,15 +88,15 @@ def answer_number_one():
     
     values, bins, patches = plt.hist(correlation_array_10, bins=100)  # plot 100 bins histogram
     
-    nb_lower_10 = (correlation_array_10 <= .75).sum()
+    nb_lower_10 = (correlation_array_10 < -.75).sum()
     nb_higher_10 = (correlation_array_10 > 0.75).sum()
     
-    prob_10 = round((nb_higher_10 / len(correlation_array_10)) *100, 3)
+    prob_10 = round(((nb_higher_10 + nb_lower_10) / len(correlation_array_10)) * 100, 3)
     
     # making the histogram look good
     plt.xlabel('Value')
     plt.ylabel('Frequency')
-    plt.title(' 10 Column Histogram - P(X > 0.75) = '+str(prob_10) + '%') # title should be p(X>0.75)
+    plt.title(' 10 Column Histogram - P(X > 0.75, X < -.75) = '+str(prob_10) + '%') # title should be p(X>0.75)
     
     plt.show()
 
